@@ -43,7 +43,8 @@ $.fn.floatScroll = function(map){
             top: $this.css('top'),
             left: $this.css('left'),
             width: $this.css('width'),
-            zIndex: $this.css('z-index')
+            zIndex: $this.css('z-index'),
+            marginTop: $this.css('margin-top')
         }
         var old_offset = $this.offset();
 
@@ -79,6 +80,7 @@ $.fn.floatScroll = function(map){
                     top: opts.positionTop,
                     left: smart_left_offset($this, old_offset),
                     width: $this.css('width'),
+                    marginTop: opts.positionTop,
                     zIndex: opts.zIndex
                 });
             }
