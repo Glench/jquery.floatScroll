@@ -1,5 +1,5 @@
 # floatScroll
-This is a jQuery plugin I made to generically fix elements on a page when a user would scroll past them. The elements stay fixed in the browser window until the user scrolls back to up to where the element was at which point the element sticks back to where its original position.
+This is a jQuery plugin I made to generically fix elements on a page when a user would scroll past them. The elements stay fixed in the browser window until the user scrolls back to up to where the element was at which point the element sticks back to its original position.
 
 ## Usage
     $('.my-elements').floatScroll()
