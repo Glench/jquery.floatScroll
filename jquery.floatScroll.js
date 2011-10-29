@@ -44,13 +44,14 @@ $.fn.floatScroll = function(map){
             left: $this.css('left'),
             width: $this.css('width'),
             zIndex: $this.css('z-index'),
-            marginTop: $this.css('margin-top')
+            marginTop: $this.css('margin-top'),
+            'float': $this.css('float')
         }
         var old_offset = $this.offset();
 
         // On scroll, figure out what this element's positioning should be.
         $window.scroll(function() {
-            if (old_offset.top > $window.scrollTop()) {
+            if (old_offset.top - opts.positionTop > $window.scrollTop()) {
                 // Remove old placeholder(s) and put this thing back into 
                 // position.
                 if ($this.data(opts.placeholderClass)) {
@@ -66,7 +67,8 @@ $.fn.floatScroll = function(map){
                 var $placeholder = $('<div>', {
                     'class': opts.placeholderClass,
                     width: $this.outerWidth(true),
-                    height: $this.outerHeight(true)
+                    height: $this.outerHeight(true),
+                    'css': {'float':old_css.float}
                 });
                 $this.after($placeholder);
                 $this.data(opts.placeholderClass, $placeholder);
@@ -80,7 +82,7 @@ $.fn.floatScroll = function(map){
                     top: opts.positionTop,
                     left: smart_left_offset($this, old_offset),
                     width: $this.css('width'),
-                    marginTop: opts.positionTop,
+                    marginTop: 0,
                     zIndex: opts.zIndex
                 });
             }
