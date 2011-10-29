@@ -64,6 +64,7 @@ $.fn.floatScroll = function(map){
                 // Insert an element that is the same width and height as
                 // the element that was there so on content the rest of the 
                 // page content doesn't jump.
+                // do I have to take into account position here?
                 var $placeholder = $('<div>', {
                     'class': opts.placeholderClass,
                     width: $this.outerWidth(true),
