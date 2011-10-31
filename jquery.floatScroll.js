@@ -69,7 +69,7 @@ $.fn.floatScroll = function(map){
                     'class': opts.placeholderClass,
                     width: $this.outerWidth(true),
                     height: $this.outerHeight(true),
-                    'css': {'float':old_css.float}
+                    'css': {'float':old_css['float']}
                 });
                 $this.after($placeholder);
                 $this.data(opts.placeholderClass, $placeholder);
