@@ -42,7 +42,6 @@ $.fn.floatScroll = function(map){
             position: $this.css('position'),
             top: $this.css('top'),
             right: $this.css('right'),
-            bottom: $this.css('bottom'),
             left: $this.css('left'),
             width: $this.css('width'),
             zIndex: $this.css('z-index'),
@@ -76,7 +75,6 @@ $.fn.floatScroll = function(map){
                         position: old_css['position'], // if the original element has special positioning
                         'top': old_css['top'],
                         right: old_css.right,
-                        bottom: old_css.bottom,
                         left: old_css.left
                     }
                 });
