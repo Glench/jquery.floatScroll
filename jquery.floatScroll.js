@@ -36,11 +36,13 @@ $.fn.floatScroll = function(map){
     };
 
     return this.each(function() {
-        var $this = $(this); 
+        var $this = $(this);
         var $window = $(window);
         var old_css = {
             position: $this.css('position'),
             top: $this.css('top'),
+            right: $this.css('right'),
+            bottom: $this.css('bottom'),
             left: $this.css('left'),
             width: $this.css('width'),
             zIndex: $this.css('z-index'),
@@ -52,7 +54,7 @@ $.fn.floatScroll = function(map){
         // On scroll, figure out what this element's positioning should be.
         $window.scroll(function() {
             if (old_offset.top - opts.positionTop > $window.scrollTop()) {
-                // Remove old placeholder(s) and put this thing back into 
+                // Remove old placeholder(s) and put this thing back into
                 // position.
                 if ($this.data(opts.placeholderClass)) {
                     $this.data(opts.placeholderClass).remove();
@@ -62,7 +64,7 @@ $.fn.floatScroll = function(map){
             } else if (!$this.data(opts.placeholderClass)) {
                 // float this thing
                 // Insert an element that is the same width and height as
-                // the element that was there so on content the rest of the 
+                // the element that was there so on content the rest of the
                 // page content doesn't jump.
                 // do I have to take into account position here?
                 var $placeholder = $('<div>', {
@@ -73,6 +75,8 @@ $.fn.floatScroll = function(map){
                         'float': old_css['float'], // float is a reserved word
                         position: old_css['position'], // if the original element has special positioning
                         'top': old_css['top'],
+                        right: old_css.right,
+                        bottom: old_css.bottom,
                         left: old_css.left
                     }
                 });
