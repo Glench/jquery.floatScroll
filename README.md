@@ -19,4 +19,4 @@ I have only tested this on jQuery 1.6.2. I'm assuming it will work on anything l
 I have tested using the built-in test cases on IE7, IE8, IE9, Firefox 7, and Chrome 14. This does not support IE6. If you find that any of the tests fail in a browser you think it should work in, please open up an issue on Github or better yet fix it yourself :)
 
 ## Note
-This is actually a pretty complicated piece of functionality to do generically. As such, there are a bunch of bugs and features to write yet that I will probably not get to. Feel free to contribute :)
+This is actually a pretty complicated piece of functionality to do generically. As such, there are a bunch of bugs and possible features that I will probably not get to. Feel free to contribute :)
