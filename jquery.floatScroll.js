@@ -9,7 +9,8 @@ $.fn.floatScroll = function(map){
             positionTop: 0, // position at the top of the browser
             placeholderClass: 'scrollPlaceholder', // class you want to put on
                                                    // the replacement element
-            zIndex: 100000
+            zIndex: 100000,
+            unfloat: true //pop the element back into the spot it came from when scrolling back to place.
         },
         map || {}
     );
@@ -36,52 +37,50 @@ $.fn.floatScroll = function(map){
     };
 
     return this.each(function() {
-        var $this = $(this);
+        var $this = $(this); 
+        var not_set_to_top = true;
         var $window = $(window);
         var old_css = {
             position: $this.css('position'),
             top: $this.css('top'),
-            right: $this.css('right'),
             left: $this.css('left'),
             width: $this.css('width'),
             zIndex: $this.css('z-index'),
             marginTop: $this.css('margin-top'),
-            marginLeft: $this.css('margin-left'),
             'float': $this.css('float')
         }
         var old_offset = $this.offset();
 
         // On scroll, figure out what this element's positioning should be.
         $window.scroll(function() {
-            if (old_offset.top - opts.positionTop > $window.scrollTop()) {
-                // Remove old placeholder(s) and put this thing back into
-                // position.
-                if ($this.data(opts.placeholderClass)) {
-                    $this.data(opts.placeholderClass).remove();
-                    $this.data(opts.placeholderClass, null);
+            var window_top = $window.scrollTop();
+            if ((old_offset.top - opts.positionTop) > window_top) {
+                if(opts.unfloat){
+                    // Remove old placeholder(s) and put this thing back into 
+                    // position.
+                    if ($this.data(opts.placeholderClass)) {
+                        $this.data(opts.placeholderClass).remove();
+                        $this.data(opts.placeholderClass, null);
+                    }
+                    $this.css(old_css);
+                } else if($this.data(opts.placeholderClass)) { //contiue floating this thing in the old position
+                    $this.css({top: old_offset.top - window_top});
+                    not_set_to_top = true; //last call to this block often doesnt set top to 0, so we need to set it later in the scroll event, but only do it once as needed
                 }
-                $this.css(old_css);
             } else if (!$this.data(opts.placeholderClass)) {
                 // float this thing
                 // Insert an element that is the same width and height as
-                // the element that was there so on content the rest of the
+                // the element that was there so on content the rest of the 
                 // page content doesn't jump.
                 // do I have to take into account position here?
                 var $placeholder = $('<div>', {
                     'class': opts.placeholderClass,
                     width: $this.outerWidth(true),
                     height: $this.outerHeight(true),
-                    'css': {
-                        'float': old_css['float'], // float is a reserved word
-                        position: old_css['position'], // if the original element has special positioning
-                        'top': old_css['top'],
-                        right: old_css.right,
-                        left: old_css.left
-                    }
+                    'css': {'float':old_css['float']}
                 });
                 $this.after($placeholder);
                 $this.data(opts.placeholderClass, $placeholder);
-
                 // Apply new fixed css plus keep the correct style.
                 // Don't want to apply css on every scroll event or else
                 // IE does weird stuff with floated elements inside the thing
@@ -92,9 +91,11 @@ $.fn.floatScroll = function(map){
                     left: smart_left_offset($this, old_offset),
                     width: $this.css('width'),
                     marginTop: 0,
-                    marginLeft: 0,
                     zIndex: opts.zIndex
                 });
+            } else if(! opts.unfloat && not_set_to_top && $this.data(opts.placeholderClass) ){
+                $this.css('top', opts.positionTop);
+                not_set_to_top = false;
             }
         });
     });
