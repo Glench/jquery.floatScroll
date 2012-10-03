@@ -7,7 +7,7 @@ This is a jQuery plugin I made to generically fix elements on a page when a user
     $('.my-elements').floatScroll(options)
 
 ## Options
-floatScroll() takes an optional hash of options. There are 3 options available:
+floatScroll() takes an optional hash of options. The following options are available:
 
 - **positionTop**: defaulted to 0. Sets how far from the top of the browser window the elements should float.
 - **placeholderClass**: defaulted to 'scrollPlaceholder'. The class of the placeholder element injected into the DOM so the page doesn't lose its fundamental layout.
