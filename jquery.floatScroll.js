@@ -64,7 +64,6 @@ $.fn.floatScroll = function(map){
         $window.scroll(function() {
             var scrollTop = $window.scrollTop();
             var bottomBound = $bounds && $bounds.length && $bounds.outerHeight() + $bounds.offset().top + opts.positionTop - $this.outerHeight();
-            console.log(bottomBound , scrollTop)
             if (old_offset.top - opts.positionTop > scrollTop) {
                 // Remove old placeholder(s) and put this thing back into
                 // position.
