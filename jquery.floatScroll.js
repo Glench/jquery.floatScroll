@@ -3,14 +3,22 @@
  * it would normally scroll off the top of the window.
  */
 (function( $ ) {
+$.floatScroll = {
+    defaults: {
+        positionTop: 0, // position at the top of the browser
+        placeholderClass: 'scrollPlaceholder', // class you want to put on
+                                               // the replacement element
+        zIndex: 100000,
+        onFloat: function($el){},
+        onUnFloat: function($el){},
+        bounds: function($el){
+            return $([]);
+        }
+    }
+}
 $.fn.floatScroll = function(map){
     var opts = $.extend({},
-        {
-            positionTop: 0, // position at the top of the browser
-            placeholderClass: 'scrollPlaceholder', // class you want to put on
-                                                   // the replacement element
-            zIndex: 100000
-        },
+        $.floatScroll.defaults,
         map || {}
     );
 
@@ -50,10 +58,13 @@ $.fn.floatScroll = function(map){
             'float': $this.css('float')
         }
         var old_offset = $this.offset();
-
+        var floated_left = 0;
+        var $bounds = opts.bounds($this);
         // On scroll, figure out what this element's positioning should be.
         $window.scroll(function() {
-            if (old_offset.top - opts.positionTop > $window.scrollTop()) {
+            var scrollTop = $window.scrollTop();
+            var bottomBound = $bounds && $bounds.length && $bounds.outerHeight() + $bounds.offset().top + opts.positionTop - $this.outerHeight();
+            if (old_offset.top - opts.positionTop > scrollTop) {
                 // Remove old placeholder(s) and put this thing back into
                 // position.
                 if ($this.data(opts.placeholderClass)) {
@@ -61,6 +72,12 @@ $.fn.floatScroll = function(map){
                     $this.data(opts.placeholderClass, null);
                 }
                 $this.css(old_css);
+                opts.onUnFloat($this);
+            } else if (bottomBound && bottomBound < scrollTop){
+                $this.css('top', bottomBound - scrollTop);
+
+            } else if (bottomBound && $this.data(opts.placeholderClass) && bottomBound > scrollTop){
+                $this.css('top', opts.positionTop);
             } else if (!$this.data(opts.placeholderClass)) {
                 // float this thing
                 // Insert an element that is the same width and height as
@@ -86,15 +103,20 @@ $.fn.floatScroll = function(map){
                 // Don't want to apply css on every scroll event or else
                 // IE does weird stuff with floated elements inside the thing
                 // you're trying to floatScroll.
+                floated_left = smart_left_offset($this, old_offset);
                 $this.css({
                     position: 'fixed',
                     top: opts.positionTop,
-                    left: smart_left_offset($this, old_offset),
+                    left: floated_left,
                     width: $this.css('width'),
                     marginTop: 0,
                     marginLeft: 0,
                     zIndex: opts.zIndex
                 });
+                opts.onFloat($this);
+            }
+            if($this.data(opts.placeholderClass)){
+                $this.css('left', floated_left - $window.scrollLeft());
             }
         });
     });
