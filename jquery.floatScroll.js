@@ -44,26 +44,26 @@ $.fn.floatScroll = function(map){
     };
 
     return this.each(function() {
-        var $this = $(this);
-        var $window = $(window);
-        var old_css = {
-            position: $this.css('position'),
-            top: $this.css('top'),
-            right: $this.css('right'),
-            left: $this.css('left'),
-            width: $this.css('width'),
-            zIndex: $this.css('z-index'),
-            marginTop: $this.css('margin-top'),
-            marginLeft: $this.css('margin-left'),
-            'float': $this.css('float')
-        }
-        var old_offset = $this.offset();
-        var floated_left = 0;
-        var $bounds = opts.bounds($this);
+        var $this = $(this),
+            $window = $(window),
+            old_css = {
+                position: $this.css('position'),
+                top: $this.css('top'),
+                right: $this.css('right'),
+                left: $this.css('left'),
+                width: $this.css('width'),
+                zIndex: $this.css('z-index'),
+                marginTop: $this.css('margin-top'),
+                marginLeft: $this.css('margin-left'),
+                'float': $this.css('float')
+            },
+            old_offset = $this.offset(),
+            floated_left = 0,
+            $bounds = opts.bounds($this);
         // On scroll, figure out what this element's positioning should be.
         $window.scroll(function() {
-            var scrollTop = $window.scrollTop();
-            var bottomBound = $bounds && $bounds.length && $bounds.outerHeight() + $bounds.offset().top + opts.positionTop - $this.outerHeight();
+            var scrollTop = $window.scrollTop(),
+                bottomBound = $bounds && $bounds.length && $bounds.outerHeight() + $bounds.offset().top + opts.positionTop - $this.outerHeight();
             if (old_offset.top - opts.positionTop > scrollTop) {
                 // Remove old placeholder(s) and put this thing back into
                 // position.
