@@ -3,6 +3,8 @@ This is a jQuery plugin I made to generically fix elements on a page when a user
 
 [View a demo here](http://glench.com/open-source/floatScroll/).
 
+Note that I'm **no longer maintaining this** and it would be wise to use the more popular [scrollToFixed](https://github.com/bigspotteddog/ScrollToFixed).
+
 ## Usage
     $('.my-elements').floatScroll(options)
 
